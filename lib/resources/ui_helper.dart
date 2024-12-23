@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zithara_excersize/resources/app_colors.dart';
+
+AppColors appClrs = AppColors();
 
 class UiHelper {
   // Vertically Space Provider
@@ -76,19 +79,4 @@ class UiHelper {
       borderSide: BorderSide(color: borderColor, width: width),
     );
   }
-
-  // Future<void> showLoading(BuildContext context) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierColor: appClrs.barrierclr,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return PopScope(
-  //         canPop: false,
-  //         // onWillPop: () async => false,
-  //         child: Center(child: loaderWidget()),
-  //       );
-  //     },
-  //   );
-  // }
 }

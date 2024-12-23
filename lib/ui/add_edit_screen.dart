@@ -5,15 +5,14 @@ import 'package:zithara_excersize/resources/app_colors.dart';
 import 'package:zithara_excersize/resources/ui_helper.dart';
 import 'package:zithara_excersize/services/router.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class AddEditScreen extends StatefulWidget {
+  const AddEditScreen({super.key});
   @override
-  State<LoginScreen> createState() => LoginScreenState();
+  State<AddEditScreen> createState() => AddEditScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class AddEditScreenState extends State<AddEditScreen> {
   AppColors appClrs = AppColors();
-  bool isVisiblityOn = true;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -50,7 +49,6 @@ class LoginScreenState extends State<LoginScreen> {
                   UiHelper.verticalSpaceMedium,
                   GestureDetector(
                     onTap: () {
-                      Get.offNamedUntil(RoutePaths.home, (e) => false);
                       // if (_formKey.currentState!.saveAndValidate()) {
                       //   // Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
                       // }
@@ -80,26 +78,13 @@ class LoginScreenState extends State<LoginScreen> {
       children: [
         FormBuilderTextField(
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: appClrs.primaryclr),
-            obscureText: nameField == "password" && isVisiblityOn,
             name: nameField,
             autocorrect: false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onChanged: (value) {},
             decoration: InputDecoration(
-              suffixIcon: isShowSuffixIcon
-                  ? GestureDetector(
-                      onTap: () {
-                        isVisiblityOn = !isVisiblityOn;
-                        setState(() {});
-                      },
-                      child: Icon(
-                        isVisiblityOn ? Icons.visibility : Icons.visibility_off,
-                        size: 25,
-                        color: appClrs.primaryclr,
-                      ))
-                  : null,
               prefixIcon: Icon(
-                nameField == "password" ? Icons.lock : Icons.person,
+                Icons.person,
                 size: 25,
                 color: appClrs.primaryclr,
               ),
