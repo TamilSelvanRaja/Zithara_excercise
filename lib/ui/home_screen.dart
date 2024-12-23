@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zithara_excersize/controllers/task_controller.dart';
 import 'package:zithara_excersize/resources/app_colors.dart';
 import 'package:zithara_excersize/resources/ui_helper.dart';
+import 'package:zithara_excersize/ui/add_edit_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -110,7 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 60,
         decoration: UiHelper.circleBorderBox(appClrs.greyclr1),
         alignment: Alignment.center,
-        child: IconButton(onPressed: () {}, icon: Icon(Icons.add, size: 30, color: appClrs.blackclr)),
+        child: IconButton(
+            onPressed: () {
+              Get.to(() => const AddEditScreen(isNew: true));
+            },
+            icon: Icon(Icons.add, size: 30, color: appClrs.blackclr)),
       ),
     );
   }

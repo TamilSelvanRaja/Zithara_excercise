@@ -1,69 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:zithara_excersize/controllers/task_controller.dart';
 import 'package:zithara_excersize/resources/app_colors.dart';
 import 'package:zithara_excersize/resources/ui_helper.dart';
-import 'package:zithara_excersize/services/router.dart';
 
 class AddEditScreen extends StatefulWidget {
-  const AddEditScreen({super.key});
+  const AddEditScreen({super.key, required this.isNew, this.initialData});
+  final bool isNew;
+  final dynamic initialData;
   @override
   State<AddEditScreen> createState() => AddEditScreenState();
 }
 
 class AddEditScreenState extends State<AddEditScreen> {
   AppColors appClrs = AppColors();
+  TaskController taskController = Get.find<TaskController>();
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.isNew ? "Add Task" : "Edit Task"),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              taskController.isDarkMode.value = !taskController.isDarkMode.value;
+            },
+            child: const CircleAvatar(
+              radius: 25,
+              child: Icon(Icons.dark_mode),
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
-        child: Container(
-          height: Get.height,
-          width: Get.width,
-          alignment: Alignment.center,
-          decoration: UiHelper.roundedBorderWithimage(0, "assets/bg1.jpg", imgopacity: 0.7),
-          padding: const EdgeInsets.all(16),
-          child: FormBuilder(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: 100,
-                    width: 100,
-                    decoration: UiHelper.roundedBorderWithColor(14, appClrs.primaryclr),
-                    child: Text(
-                      "Z",
-                      style: TextStyle(fontWeight: FontWeight.w900, color: appClrs.whiteclr, fontSize: 70),
-                    ),
-                  ),
-                  UiHelper.verticalSpaceMedium,
-                  addInputFormControl("username", "Email"),
-                  UiHelper.verticalSpaceMedium,
-                  addInputFormControl("password", "Password", isShowSuffixIcon: true),
-                  UiHelper.verticalSpaceMedium,
-                  GestureDetector(
-                    onTap: () {
-                      // if (_formKey.currentState!.saveAndValidate()) {
-                      //   // Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
-                      // }
-                    },
-                    child: Container(
-                      height: 45,
-                      alignment: Alignment.center,
-                      decoration: UiHelper.roundedBorderWithColor(10, appClrs.primaryclr),
-                      child: Text(
-                        "Sign in",
-                        style: TextStyle(color: appClrs.whiteclr, fontSize: 18, fontWeight: FontWeight.bold),
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Container(
+            height: Get.height,
+            width: Get.width,
+            alignment: Alignment.center,
+            decoration: UiHelper.roundedBorderWithimage(0, "assets/bg1.jpg", imgopacity: 0.7),
+            padding: const EdgeInsets.all(16),
+            child: FormBuilder(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    UiHelper.verticalSpaceLarge,
+                    addInputFormControl("title", "Title", Icons.title_outlined),
+                    UiHelper.verticalSpaceMedium,
+                    addInputFormControl("description", "Description", Icons.description_outlined),
+                    UiHelper.verticalSpaceMedium,
+                    GestureDetector(
+                      onTap: () {
+                        if (_formKey.currentState!.saveAndValidate()) {
+                          Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
+                        }
+                      },
+                      child: Container(
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: UiHelper.roundedBorderWithColor(10, appClrs.primaryclr),
+                        child: Text(
+                          widget.isNew ? "Submit" : "Update",
+                          style: TextStyle(color: appClrs.whiteclr, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -73,7 +82,7 @@ class AddEditScreenState extends State<AddEditScreen> {
   }
 
   // ************* Input Field Widget ********************* \\
-  Widget addInputFormControl(String nameField, String hintText, {bool isShowSuffixIcon = false}) {
+  Widget addInputFormControl(String nameField, String hintText, IconData icon) {
     return Column(
       children: [
         FormBuilderTextField(
@@ -84,7 +93,7 @@ class AddEditScreenState extends State<AddEditScreen> {
             onChanged: (value) {},
             decoration: InputDecoration(
               prefixIcon: Icon(
-                Icons.person,
+                icon,
                 size: 25,
                 color: appClrs.primaryclr,
               ),
@@ -100,9 +109,12 @@ class AddEditScreenState extends State<AddEditScreen> {
               contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             ),
             validator: ((value) {
-              if (value == "" || value == null) {
-                return "$hintText is required";
+              if (nameField == "title") {
+                if (value == "" || value == null) {
+                  return "$hintText is required";
+                }
               }
+
               return null;
             })),
       ],
