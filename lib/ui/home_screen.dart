@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zithara_excersize/controllers/task_controller.dart';
@@ -49,8 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: Get.height,
                     width: Get.width,
                     padding: const EdgeInsets.all(10),
-                    child: Obx(
-                      () => taskController.filterList.isNotEmpty
+                    child: Obx(() {
+                      taskController.fiteringData("", "");
+                      return taskController.filterList.isNotEmpty
                           ? ListView.separated(
                               itemCount: taskController.filterList.length,
                               itemBuilder: (context, index) {
@@ -61,11 +64,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                     padding: const EdgeInsets.all(16),
                                     child: Row(
                                       children: [
-                                        Image.asset(
-                                          data["image"],
-                                          height: 40,
-                                          width: 40,
-                                        ),
+                                        data["image"].toString().isNotEmpty
+                                            ? data["image"].contains("assets/")
+                                                ? Image.asset(
+                                                    data["image"],
+                                                    height: 40,
+                                                    width: 40,
+                                                  )
+                                                : Image.file(File(data["image"]), width: 40, height: 40, fit: BoxFit.cover)
+                                            : Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: UiHelper.circleBorderBox(appClrs.whiteclr),
+                                                child: Icon(Icons.camera_alt, size: 30, color: appClrs.primaryclr),
+                                              ),
                                         UiHelper.horizontalSpaceSmall,
                                         Expanded(
                                             child: Column(
@@ -88,7 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                               bool vals = !data["status"];
                                               taskController.updateStatus(data["id"], vals);
                                             }),
-                                        GestureDetector(onTap: () {}, child: const Icon(Icons.edit)),
+                                        GestureDetector(
+                                            onTap: () {
+                                              Get.to(() => AddEditScreen(isNew: false, initialData: data));
+                                            },
+                                            child: const Icon(Icons.edit)),
                                         UiHelper.horizontalSpaceSmall,
                                         GestureDetector(
                                             onTap: () {
@@ -103,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: appClrs.greyclr1,
                               ),
                             )
-                          : const Center(child: Text("Data Not Found")),
-                    ))),
+                          : const Center(child: Text("Data Not Found"));
+                    }))),
       ),
       floatingActionButton: Container(
         height: 60,

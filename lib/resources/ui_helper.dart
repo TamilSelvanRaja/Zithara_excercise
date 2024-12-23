@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zithara_excersize/resources/app_colors.dart';
 
 AppColors appClrs = AppColors();
@@ -39,8 +40,7 @@ class UiHelper {
     );
   }
 
-  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
-      {Color borderColor = Colors.transparent, double borderWidth = 0, bool isShadow = false, Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor, {Color borderColor = Colors.transparent, double borderWidth = 0, bool isShadow = false, Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),
@@ -77,6 +77,17 @@ class UiHelper {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       borderSide: BorderSide(color: borderColor, width: width),
+    );
+  }
+
+  Future commonsnack(String title, String message) async {
+    return Get.snackbar(
+      title,
+      message,
+      backgroundColor: appClrs.secondaryclr,
+      colorText: appClrs.whiteclr,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(10),
     );
   }
 }
