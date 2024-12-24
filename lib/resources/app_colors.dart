@@ -6,5 +6,6 @@ class AppColors {
   Color whiteclr = Colors.white;
   Color blackclr = Colors.black;
   Color redclr = Colors.red;
+  Color greenclr = Colors.green;
   Color greyclr1 = const Color(0xFFF4EFEF);
 }

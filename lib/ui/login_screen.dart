@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:zithara_excersize/resources/app_colors.dart';
 import 'package:zithara_excersize/resources/ui_helper.dart';
+import 'package:zithara_excersize/services/apiservices.dart';
 import 'package:zithara_excersize/services/router.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +16,6 @@ class LoginScreenState extends State<LoginScreen> {
   AppColors appClrs = AppColors();
   bool isVisiblityOn = true;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,16 +44,24 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   UiHelper.verticalSpaceMedium,
-                  addInputFormControl("username", "Email"),
+                  addInputFormControl("email", "Email"),
                   UiHelper.verticalSpaceMedium,
                   addInputFormControl("password", "Password", isShowSuffixIcon: true),
                   UiHelper.verticalSpaceMedium,
                   GestureDetector(
-                    onTap: () {
-                      Get.offNamedUntil(RoutePaths.home, (e) => false);
-                      // if (_formKey.currentState!.saveAndValidate()) {
-                      //   // Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
-                      // }
+                    onTap: () async {
+                      if (_formKey.currentState!.saveAndValidate()) {
+                        Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
+                        bool res = await Apiservices().loginFunction(postParams);
+                        if (res) {
+                          Get.offNamedUntil(RoutePaths.home, (e) => false);
+                          UiHelper().commonsnack("Success", "Login Success");
+                          Apiservices().setString("islogin", "true");
+                        } else {
+                          Apiservices().setString("islogin", "false");
+                          UiHelper().commonsnack("Failed", "Email id or password is does't match");
+                        }
+                      }
                     },
                     child: Container(
                       height: 45,
@@ -117,10 +125,20 @@ class LoginScreenState extends State<LoginScreen> {
             validator: ((value) {
               if (value == "" || value == null) {
                 return "$hintText is required";
+              } else if (nameField == "email") {
+                if (!isEmailValid(value)) {
+                  return "$hintText is Invalid";
+                }
               }
               return null;
             })),
       ],
     );
+  }
+
+  bool isEmailValid(value) {
+    return RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(value);
   }
 }

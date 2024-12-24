@@ -80,7 +80,9 @@ class AddEditScreenState extends State<AddEditScreen> {
                         child: localPath.isNotEmpty
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(36.0),
-                                child: localPath.contains("assets/") ? Image.asset(localPath, width: 72, height: 72, fit: BoxFit.cover) : Image.file(File(localPath), width: 72, height: 72, fit: BoxFit.cover),
+                                child: localPath.contains("assets/")
+                                    ? Image.asset(localPath, width: 72, height: 72, fit: BoxFit.cover)
+                                    : Image.file(File(localPath), width: 72, height: 72, fit: BoxFit.cover),
                               )
                             : Container(
                                 width: 72,
@@ -211,9 +213,11 @@ class AddEditScreenState extends State<AddEditScreen> {
         return null;
       },
       onChanged: (value) {
-        DateTime inputDate = DateTime.parse(value.toString());
-        due = format.format(inputDate);
-        setState(() {});
+        if (value != null) {
+          DateTime inputDate = DateTime.parse(value.toString());
+          due = format.format(inputDate);
+          setState(() {});
+        }
       },
     );
   }
@@ -260,6 +264,7 @@ class AddEditScreenState extends State<AddEditScreen> {
   }
 
   Future getImage(FileType fileType) async {
+    // ignore: deprecated_member_use
     final pickedFile = await picker.getImage(source: fileType == FileType.video ? ImageSource.camera : ImageSource.gallery, maxWidth: 240);
     if (pickedFile != null) {
       setState(() {

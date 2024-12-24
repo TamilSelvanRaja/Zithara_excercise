@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "923237625165",
+    "project_id": "androidteamchat-5f8c2",
+    "storage_bucket": "androidteamchat-5f8c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923237625165:android:43b36e163332924ea15b04",
+        "android_client_info": {
+          "package_name": "com.example.android_team_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923237625165-qa0f2jcqcs4i1l2h3vhee80vvbn39jpf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNGJrHDjEp_7Tz1IYGa0qHfUVJ-yey3nI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923237625165-qa0f2jcqcs4i1l2h3vhee80vvbn39jpf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

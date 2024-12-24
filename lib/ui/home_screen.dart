@@ -63,7 +63,21 @@ class _MyHomePageState extends State<MyHomePage> {
                           UiHelper.horizontalSpaceSmall,
                           Expanded(flex: 2, child: datepickerFormControl()),
                           UiHelper.horizontalSpaceSmall,
-                          const Icon(Icons.swap_vert),
+                          GestureDetector(
+                              onTap: () {
+                                isSorting = true;
+                                setState(() {});
+                              },
+                              child: const Icon(Icons.swap_vert)),
+                          // UiHelper.horizontalSpaceSmall,
+                          // GestureDetector(
+                          //     onTap: () {
+                          //       searchkey = "";
+                          //       datestr = "";
+                          //       isSorting = false;
+                          //       setState(() {});
+                          //     },
+                          //     child: const Icon(Icons.search_off)),
                         ]),
                         Expanded(
                           child: Obx(() {
@@ -159,6 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await Get.dialog(AlertDialog(
         contentPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        // ignore: deprecated_member_use
         content: WillPopScope(
             onWillPop: () async {
               Get.back();
@@ -215,15 +230,18 @@ class _MyHomePageState extends State<MyHomePage> {
   // ************* Input Field Widget ********************* \\
   Widget inputFormControl() {
     return FormBuilderTextField(
-      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: appClrs.primaryclr),
+      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: appClrs.primaryclr),
       name: "search",
       autocorrect: false,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (value) {},
+      onChanged: (value) {
+        searchkey = value.toString();
+        setState(() {});
+      },
       decoration: InputDecoration(
         prefixIcon: Icon(
           Icons.search,
-          size: 25,
+          size: 20,
           color: appClrs.primaryclr,
         ),
         labelText: "Search task name..",
@@ -231,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
         filled: true,
         fillColor: appClrs.whiteclr,
         border: UiHelper.getInputBorder(1, borderColor: appClrs.whiteclr),
-        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       ),
     );
   }
@@ -241,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
     DateFormat format = DateFormat('dd-MM-yyyy');
     return FormBuilderDateTimePicker(
       name: "date",
-      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: appClrs.primaryclr),
+      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: appClrs.primaryclr),
       inputType: InputType.date,
       format: DateFormat('dd-MM-yyyy'),
       timePickerInitialEntryMode: TimePickerEntryMode.dial,
@@ -250,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
       decoration: InputDecoration(
         prefixIcon: Icon(
           Icons.date_range,
-          size: 25,
+          size: 20,
           color: appClrs.primaryclr,
         ),
         labelText: "Date",
@@ -258,12 +276,14 @@ class _MyHomePageState extends State<MyHomePage> {
         filled: true,
         fillColor: appClrs.whiteclr,
         border: UiHelper.getInputBorder(1, borderColor: appClrs.whiteclr),
-        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       ),
       onChanged: (value) {
-        DateTime inputDate = DateTime.parse(value.toString());
-        //due = format.format(inputDate);
-        setState(() {});
+        if (value != null) {
+          DateTime inputDate = DateTime.parse(value.toString());
+          datestr = format.format(inputDate);
+          setState(() {});
+        }
       },
     );
   }

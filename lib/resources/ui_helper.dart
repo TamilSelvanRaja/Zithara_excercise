@@ -40,7 +40,8 @@ class UiHelper {
     );
   }
 
-  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor, {Color borderColor = Colors.transparent, double borderWidth = 0, bool isShadow = false, Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
+      {Color borderColor = Colors.transparent, double borderWidth = 0, bool isShadow = false, Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),
@@ -84,7 +85,7 @@ class UiHelper {
     return Get.snackbar(
       title,
       message,
-      backgroundColor: appClrs.secondaryclr,
+      backgroundColor: title == "Failed" ? appClrs.redclr : appClrs.greenclr,
       colorText: appClrs.whiteclr,
       snackPosition: SnackPosition.BOTTOM,
       margin: const EdgeInsets.all(10),

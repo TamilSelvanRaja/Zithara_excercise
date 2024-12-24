@@ -5,12 +5,13 @@ class TaskController extends GetxController {
   List dummytaskData = [
     {"id": 0, "due_date": "25-06-2025", "title": "Image Upload Task", "description": "Upload for user photo", "status": false, "image": "assets/task1.png"},
     {"id": 1, "due_date": "02-01-2025", "title": "Name Change", "description": "Consumer name change reports", "status": false, "image": "assets/task2.png"},
-    {"id": 2, "due_date": "23-03-2025", "title": "Api Integration", "description": "Rest API's Development and integration", "status": false, "image": "assets/task3.png"},
+    {"id": 2, "due_date": "02-01-2025", "title": "Api Integration", "description": "Rest API's Development and integration", "status": false, "image": "assets/task3.png"},
   ];
   RxBool isDarkMode = false.obs;
   RxBool isLoading = false.obs;
   RxList taskList = [].obs;
   RxList filterList = [].obs;
+
   Future initialDataAssign() async {
     isLoading.value = true;
     taskList.value = dummytaskData;
@@ -62,12 +63,13 @@ class TaskController extends GetxController {
   }
 
   Future fiteringData(String name, String datestr, bool isSorting) async {
+    List tempList = taskList;
     if (isSorting) {
-      taskList.sort((a, b) => a['title'].toString().compareTo(b['title']));
+      tempList.sort((a, b) => a['title'].toString().compareTo(b['title']));
     }
     if (datestr.isNotEmpty) {
-    } else {
-      filterList.value = taskList.where((e) => e['title'].toString().toLowerCase().contains(name.toString().toLowerCase())).toList();
+      tempList = tempList.where((e) => e['due_date'].toString() == datestr).toList();
     }
+    filterList.value = tempList.where((e) => e['title'].toString().toLowerCase().contains(name.toString().toLowerCase())).toList();
   }
 }
