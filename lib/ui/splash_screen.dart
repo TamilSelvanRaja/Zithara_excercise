@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zithara_excersize/resources/app_colors.dart';
@@ -15,20 +17,18 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   UiHelper uihelper = UiHelper();
   AppColors appClrs = AppColors();
+  Apiservices apiservices = Get.find<Apiservices>();
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.visitChildElements((element) {
-        //  uihelper.showLoading(context);
-        Future.delayed((const Duration(seconds: 1)), () {
-          if (Apiservices().getString("islogin").toString() == "true") {
-            Get.offNamedUntil(RoutePaths.home, (e) => false);
-          } else {
-            Get.to(() => const LoginScreen());
-          }
-        });
-      });
+
+    Future.delayed((const Duration(seconds: 1)), () async {
+      String status = await apiservices.getString("islogin");
+      if (status == "true") {
+        Get.offNamedUntil(RoutePaths.home, (e) => false);
+      } else {
+        Get.to(() => const LoginScreen());
+      }
     });
   }
 
