@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:zithara_excersize/controllers/task_controller.dart';
@@ -9,20 +8,19 @@ import 'package:zithara_excersize/controllers/task_controller.dart';
 TaskController taskController = Get.find<TaskController>();
 
 class Apiservices {
-  String email = "testing@gmail.com";
-  String password = "Test123@";
   final FlutterSecureStorage pref = const FlutterSecureStorage();
 
   //// ************ User Login ***********\\\\\
-  Future loginFunction(dynamic requestJson) async {
+  Future loginFunction1(dynamic requestJson) async {
     try {
-      if (requestJson['email'] == email && requestJson['password'] == password) {
-        return true;
-      } else {
-        return false;
-      }
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: requestJson['email'],
+        password: requestJson['password'],
+      );
+      return true;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
+      return false;
     }
   }
 

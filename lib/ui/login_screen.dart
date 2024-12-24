@@ -52,7 +52,7 @@ class LoginScreenState extends State<LoginScreen> {
                     onTap: () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         Map<String, dynamic> postParams = Map.from(_formKey.currentState!.value);
-                        bool res = await Apiservices().loginFunction(postParams);
+                        bool res = await Apiservices().loginFunction1(postParams);
                         if (res) {
                           Get.offNamedUntil(RoutePaths.home, (e) => false);
                           UiHelper().commonsnack("Success", "Login Success");

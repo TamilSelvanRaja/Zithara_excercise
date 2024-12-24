@@ -24,11 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed((const Duration(seconds: 1)), () async {
       String status = await apiservices.getString("islogin");
-      if (status == "true") {
-        Get.offNamedUntil(RoutePaths.home, (e) => false);
-      } else {
-        Get.to(() => const LoginScreen());
-      }
+      // if (status == "true") {
+      //   Get.offNamedUntil(RoutePaths.home, (e) => false);
+      // } else {
+      Get.to(() => const LoginScreen());
+      // }
     });
   }
 
