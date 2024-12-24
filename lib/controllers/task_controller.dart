@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zithara_excersize/resources/ui_helper.dart';
 
@@ -62,7 +61,10 @@ class TaskController extends GetxController {
     taskList.value = taskList.where((e) => e['id'] != id).toList();
   }
 
-  Future fiteringData(String name, String datestr) async {
+  Future fiteringData(String name, String datestr, bool isSorting) async {
+    if (isSorting) {
+      taskList.sort((a, b) => a['title'].toString().compareTo(b['title']));
+    }
     if (datestr.isNotEmpty) {
     } else {
       filterList.value = taskList.where((e) => e['title'].toString().toLowerCase().contains(name.toString().toLowerCase())).toList();
