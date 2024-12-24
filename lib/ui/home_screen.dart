@@ -117,6 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                                                   ),
                                                   Text(
+                                                    data["due_date"],
+                                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                                  ),
+                                                  Text(
                                                     data["description"],
                                                     style: const TextStyle(fontSize: 14),
                                                   )
